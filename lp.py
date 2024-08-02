@@ -1,4 +1,3 @@
-
 import streamlit as st
 import sqlite3
 import bcrypt
@@ -88,7 +87,11 @@ def main():
         else:
             # Redirect to invoice uploader page if already logged in
             st.experimental_set_query_params(page="invoice_uploader")
-            st.experimental_rerun()
+            # Use meta refresh to handle redirection
+            st.markdown(
+                f'<meta http-equiv="refresh" content="0;url={st.experimental_get_query_params().get("page", ["invoice_uploader"])[0]}">',
+                unsafe_allow_html=True
+            )
 
 # Login form function
 def login_form():
@@ -106,7 +109,6 @@ def login_form():
             # Redirect to the specific Streamlit URL after successful login
             redirect_url = "https://uploadinvoicefinal-2xgjnevfa4dne2gkj83kf5.streamlit.app/"
             st.markdown(f'<meta http-equiv="refresh" content="0;url={redirect_url}">', unsafe_allow_html=True)
-            st.experimental_rerun()
         else:
             st.error("Invalid username or password")
 
